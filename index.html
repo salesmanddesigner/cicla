@@ -777,9 +777,9 @@ nav.tabbar button.fab .ic { font-size: 22px; font-weight: 700; line-height: 1; }
   <!-- TELA: RESUMO -->
   <section class="tela ativa" id="tela-resumo">
     <button class="avatar-btn" id="avatar-btn">
-      <img src="https://api.dicebear.com/7.x/initials/svg?seed=Amanda" alt="">
+      <img id="avatar-img" src="https://api.dicebear.com/7.x/initials/svg?seed=%3F" alt="">
     </button>
-    <h1 class="saudacao">Oi, Amanda</h1>
+    <h1 class="saudacao" id="saudacao">Oi</h1>
     <div class="card-resumo">
       <span class="fase-pill" id="fase-pill">Fase lútea</span>
       <div class="anel-wrap">
@@ -793,38 +793,14 @@ nav.tabbar button.fab .ic { font-size: 22px; font-weight: 700; line-height: 1; }
         <span class="lbl-central" id="lbl-central">dias pro início do próximo</span>
       </div>
     </div>
-    <button id="btn-simular" style="width:100%; background:none; border:1px dashed rgba(253,246,237,0.3); color:var(--creme); border-radius:12px; padding:8px; font-size:11px; opacity:0.6; font-family:inherit; cursor:pointer;">só p/ testar: simular "em fluxo"</button>
-    <button id="btn-preview-login" style="width:100%; background:none; border:1px dashed rgba(253,246,237,0.3); color:var(--creme); border-radius:12px; padding:8px; font-size:11px; opacity:0.6; font-family:inherit; cursor:pointer; margin-top:8px;">só p/ testar: ver tela de login</button>
   </section>
 
   <!-- TELA: HISTÓRICO -->
   <section class="tela" id="tela-historico">
     <button class="btn-voltar" id="btn-voltar-resumo">‹ Resumo</button>
     <h1>Histórico do ciclo</h1>
-    <div class="registros">
-
-      <button class="registro-card" data-inicio="16" data-fim="18" data-mes="agosto">
-        <div class="registro-main">
-          <p class="titulo">16 – 18 de agosto</p>
-        </div>
-        <div class="registro-stat">3 dias</div>
-      </button>
-
-      <button class="registro-card" data-inicio="19" data-fim="23" data-mes="julho">
-        <div class="registro-main">
-          <p class="titulo">19 – 23 de julho</p>
-        </div>
-        <div class="registro-stat">5 dias</div>
-      </button>
-
-      <button class="registro-card" data-inicio="21" data-fim="25" data-mes="junho">
-        <div class="registro-main">
-          <p class="titulo">21 – 25 de junho</p>
-        </div>
-        <div class="registro-stat">5 dias</div>
-      </button>
-
-    </div>
+    <div class="registros" id="registros-lista"></div>
+    <p id="registros-vazio" style="display:none; color:var(--creme); opacity:0.6; font-size:13px; text-align:center; margin-top:20px;">Nenhum ciclo registrado ainda.</p>
   </section>
 
   <!-- MODAL: REGISTRAR DIA -->
@@ -837,56 +813,19 @@ nav.tabbar button.fab .ic { font-size: 22px; font-weight: 700; line-height: 1; }
 
       <div class="calendar">
         <div class="calendar-header">
-          <span class="calendar-month">Agosto 2026</span>
+          <span class="calendar-month" id="calendar-month">Agosto 2026</span>
           <div class="calendar-nav">
-            <button type="button">‹</button>
-            <button type="button">›</button>
+            <button type="button" id="calendar-prev">‹</button>
+            <button type="button" id="calendar-next">›</button>
           </div>
         </div>
         <div class="calendar-weekdays">
           <span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
         </div>
-        <div class="calendar-grid">
-          <button class="calendar-day is-empty"></button>
-          <button class="calendar-day is-empty"></button>
-          <button class="calendar-day is-empty"></button>
-          <button class="calendar-day is-empty"></button>
-          <button class="calendar-day is-empty"></button>
-          <button class="calendar-day">1</button>
-          <button class="calendar-day">2</button>
-          <button class="calendar-day">3</button>
-          <button class="calendar-day">4</button>
-          <button class="calendar-day">5</button>
-          <button class="calendar-day">6</button>
-          <button class="calendar-day">7</button>
-          <button class="calendar-day">8</button>
-          <button class="calendar-day">9</button>
-          <button class="calendar-day">10</button>
-          <button class="calendar-day">11</button>
-          <button class="calendar-day">12</button>
-          <button class="calendar-day">13</button>
-          <button class="calendar-day">14</button>
-          <button class="calendar-day">15</button>
-          <button class="calendar-day dia-forte momento-limite" data-momento="inicio">16</button>
-          <button class="calendar-day dia-moderado">17</button>
-          <button class="calendar-day is-hoje dia-selecionado">18</button>
-          <button class="calendar-day">19</button>
-          <button class="calendar-day">20</button>
-          <button class="calendar-day">21</button>
-          <button class="calendar-day">22</button>
-          <button class="calendar-day">23</button>
-          <button class="calendar-day">24</button>
-          <button class="calendar-day">25</button>
-          <button class="calendar-day">26</button>
-          <button class="calendar-day">27</button>
-          <button class="calendar-day">28</button>
-          <button class="calendar-day">29</button>
-          <button class="calendar-day">30</button>
-          <button class="calendar-day">31</button>
-        </div>
+        <div class="calendar-grid" id="calendar-grid"></div>
       </div>
 
-      <p class="resumo-selecao">Registrando: 18 de agosto (hoje)</p>
+      <p class="resumo-selecao" id="resumo-selecao">Registrando: hoje</p>
 
       <div class="field">
         <label>Momento do ciclo</label>
@@ -926,112 +865,154 @@ nav.tabbar button.fab .ic { font-size: 22px; font-weight: 700; line-height: 1; }
   <div class="menu-overlay" id="menu-overlay">
     <div class="menu-backdrop" id="menu-backdrop"></div>
     <div class="menu-panel">
-      <img class="menu-avatar" src="https://api.dicebear.com/7.x/initials/svg?seed=Amanda" alt="">
-      <p class="menu-nome">Amanda</p>
+      <img class="menu-avatar" id="menu-avatar" src="https://api.dicebear.com/7.x/initials/svg?seed=%3F" alt="">
+      <p class="menu-nome" id="menu-nome">...</p>
       <button class="menu-item" id="menu-historico">Histórico do ciclo</button>
-      <button class="menu-sair">Sair</button>
+      <button class="menu-sair" id="menu-sair">Sair</button>
     </div>
   </div>
 
 </div>
 
-<script>
-  document.querySelectorAll('.tabbar button[data-tela]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      document.querySelectorAll('.tabbar button[data-tela]').forEach(function (b) { b.classList.remove('ativa'); });
-      document.querySelectorAll('.tela').forEach(function (s) { s.classList.remove('ativa'); });
-      btn.classList.add('ativa');
-      document.getElementById(btn.dataset.tela).classList.add('ativa');
+<script type="module">
+  // ---------- Firebase ----------
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithCredential, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc, deleteField, onSnapshot, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+  const GOOGLE_CLIENT_ID = "450514349028-dli21v0eoufkojsrc068mejp3b1j0ef1.apps.googleusercontent.com";
+  const firebaseConfig = {
+    apiKey: "AIzaSyDrDZ-Mmbif3isAmsAvyf_bXT1jY4v9kAc",
+    authDomain: "amanda-5ca11.firebaseapp.com",
+    projectId: "amanda-5ca11",
+    storageBucket: "amanda-5ca11.firebasestorage.app",
+    messagingSenderId: "450514349028",
+    appId: "1:450514349028:web:b43bdde69cd8e54ca575f1",
+  };
+
+  const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+
+  let diasSalvos = {};      // { 'YYYY-MM-DD': { momento: 'inicio'|'fluxo'|'fim', fluxo: 'dia-leve'|'dia-moderado'|'dia-forte' } }
+  let cicloDocRef = null;
+  let userUid = null;
+  let calMesAtual = new Date();
+  let diaSelecionadoStr = null;
+  let ciclosCache = [];
+  let editandoDiasCiclo = null; // array de datas do ciclo em edição (pra excluir tudo de uma vez)
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function paraISO(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function deISO(s) { const [a,m,d] = s.split('-').map(Number); return new Date(a, m - 1, d); }
+  function diffDias(a, b) { return Math.round((a - b) / 86400000); }
+  function formatarDataCurta(d) { return d.getDate() + ' de ' + MESES[d.getMonth()]; }
+
+  // ---------- Agrupar dias salvos em ciclos (sequências de dias consecutivos) ----------
+  function agruparCiclos() {
+    const datas = Object.keys(diasSalvos).sort();
+    const ciclos = [];
+    let atual = null;
+    datas.forEach(function (dStr) {
+      const d = deISO(dStr);
+      if (atual && diffDias(d, deISO(atual.dias[atual.dias.length - 1])) === 1) {
+        atual.dias.push(dStr);
+      } else {
+        atual = { dias: [dStr] };
+        ciclos.push(atual);
+      }
     });
-  });
-
-  // Modal de registrar dia
-  const registrarOverlay = document.getElementById('registrar-overlay');
-  document.getElementById('btn-abrir-registrar').addEventListener('click', function () {
-    registrarOverlay.classList.add('is-open');
-  });
-  document.getElementById('registrar-backdrop').addEventListener('click', function () {
-    registrarOverlay.classList.remove('is-open');
-  });
-  document.getElementById('btn-cancelar-registro').addEventListener('click', function () {
-    registrarOverlay.classList.remove('is-open');
-  });
-  document.getElementById('btn-salvar-dia').addEventListener('click', function () {
-    registrarOverlay.classList.remove('is-open');
-  });
-
-  // Seleciona um único dia pra registrar
-  let diaSelecionado = document.querySelector('.calendar-day.is-hoje');
-
-  document.querySelectorAll('.calendar-day:not(.is-empty)').forEach(function (dia) {
-    dia.addEventListener('click', function () {
-      document.querySelectorAll('.calendar-day').forEach(function (d) { d.classList.remove('dia-selecionado'); });
-      dia.classList.add('dia-selecionado');
-      diaSelecionado = dia;
-
-      const ehHoje = dia.classList.contains('is-hoje');
-      document.querySelector('.resumo-selecao').textContent =
-        'Registrando: ' + dia.textContent + ' de agosto' + (ehHoje ? ' (hoje)' : '');
-
-      // reflete a cor já salva daquele dia no toggle de fluxo
-      const classes = ['dia-leve', 'dia-moderado', 'dia-forte'];
-      const atual = classes.find(function (c) { return dia.classList.contains(c); });
-      document.querySelectorAll('#fluxo-toggle button').forEach(function (b) {
-        b.classList.toggle('ativo', b.dataset.fluxo === atual);
-      });
-
-      // reflete o momento (início/fluxo/fim) já salvo daquele dia
-      const momentoAtual = dia.dataset.momento || 'fluxo';
-      document.querySelectorAll('#momento-toggle button').forEach(function (b) {
-        b.classList.toggle('ativo', b.dataset.momento === momentoAtual);
-      });
+    return ciclos.map(function (c) {
+      return {
+        inicio: deISO(c.dias[0]),
+        fim: deISO(c.dias[c.dias.length - 1]),
+        dias: c.dias
+      };
     });
-  });
+  }
 
-  document.querySelectorAll('#fluxo-toggle button').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      document.querySelectorAll('#fluxo-toggle button').forEach(function (b) { b.classList.remove('ativo'); });
-      btn.classList.add('ativo');
-      if (!diaSelecionado) return;
-      diaSelecionado.classList.remove('dia-leve', 'dia-moderado', 'dia-forte');
-      diaSelecionado.classList.add(btn.dataset.fluxo);
-    });
-  });
+  // ---------- Cálculo do resumo (fase, dias restantes, bolinhas) ----------
+  function calcularResumo() {
+    const hoje = new Date();
+    const hojeStr = paraISO(hoje);
+    const ciclos = ciclosCache;
 
-  document.querySelectorAll('#momento-toggle button').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      document.querySelectorAll('#momento-toggle button').forEach(function (b) { b.classList.remove('ativo'); });
-      btn.classList.add('ativo');
-      if (!diaSelecionado) return;
-      diaSelecionado.dataset.momento = btn.dataset.momento;
-      diaSelecionado.classList.toggle('momento-limite', btn.dataset.momento !== 'fluxo');
-    });
-  });
-
-  // Abrir um ciclo do histórico em modo edição
-  document.querySelectorAll('.registro-card').forEach(function (card) {
-    card.addEventListener('click', function () {
-      registrarOverlay.classList.add('is-open');
-
-      document.querySelector('.resumo-selecao').textContent =
-        'Editando ciclo: ' + card.dataset.inicio + ' a ' + card.dataset.fim + ' de ' + card.dataset.mes;
-      document.getElementById('btn-salvar-dia').textContent = 'Salvar alterações';
-      document.getElementById('btn-excluir').style.display = 'block';
-    });
-  });
-
-  document.getElementById('btn-excluir').addEventListener('click', function () {
-    if (confirm('Excluir este registro?')) {
-      alert('(exemplo) registro excluído');
-      registrarOverlay.classList.remove('is-open');
+    if (ciclos.length === 0) {
+      return {
+        fase: 'Comece a registrar',
+        num: '—',
+        lbl: 'clique no + pra começar',
+        diasComFluxo: {},
+        janelaFertil: null,
+        diaAtualIndex: null,
+        totalDias: 28
+      };
     }
-  });
 
-  // Gera as bolinhas do ciclo dispostas em círculo (1 por dia de uma duração média de 28)
-  function gerarBolinhas(diasComFluxo, diaAtual, janelaFertil) {
+    const ultimo = ciclos[ciclos.length - 1];
+    const emFluxo = ultimo.dias.includes(hojeStr);
+
+    // duração média do fluxo (últimos ciclos completos, ou o próprio se for o único)
+    const duracoesFluxo = ciclos.map(function (c) { return c.dias.length; });
+    const duracaoFluxoMedia = Math.round(duracoesFluxo.reduce(function (a, b) { return a + b; }, 0) / duracoesFluxo.length) || 5;
+
+    // duração média do ciclo (gap entre inícios consecutivos)
+    let duracaoCiclo = 28;
+    if (ciclos.length >= 2) {
+      const gaps = [];
+      for (let i = 1; i < ciclos.length; i++) {
+        gaps.push(diffDias(ciclos[i].inicio, ciclos[i - 1].inicio));
+      }
+      duracaoCiclo = Math.round(gaps.reduce(function (a, b) { return a + b; }, 0) / gaps.length);
+    }
+
+    const diaCiclo = diffDias(hoje, ultimo.inicio) + 1;
+
+    // mapa de dias com fluxo (posição relativa ao início do último ciclo)
+    const diasComFluxo = {};
+    ultimo.dias.forEach(function (dStr) {
+      const idx = diffDias(deISO(dStr), ultimo.inicio) + 1;
+      diasComFluxo[idx] = (diasSalvos[dStr] && diasSalvos[dStr].fluxo) || 'dia-forte';
+    });
+
+    // janela fértil estimada: ovulação ~14 dias antes do próximo ciclo
+    const ovulacaoIdx = duracaoCiclo - 14;
+    const janelaFertil = [Math.max(1, ovulacaoIdx - 3), Math.min(duracaoCiclo, ovulacaoIdx + 1)];
+
+    let fase, num, lbl;
+    if (emFluxo) {
+      fase = 'Menstruando';
+      const restantes = Math.max(duracaoFluxoMedia - diaCiclo, 0);
+      num = String(restantes);
+      lbl = 'dias pro fim do ciclo';
+    } else {
+      const proximaData = new Date(ultimo.inicio);
+      proximaData.setDate(proximaData.getDate() + duracaoCiclo);
+      const diasAte = diffDias(proximaData, hoje);
+      num = String(Math.max(diasAte, 0));
+      lbl = 'dias pro início do próximo';
+
+      if (diaCiclo >= janelaFertil[0] && diaCiclo <= janelaFertil[1]) {
+        fase = 'Fase fértil';
+      } else if (diaCiclo < janelaFertil[0]) {
+        fase = 'Fase folicular';
+      } else {
+        fase = 'Fase lútea';
+      }
+    }
+
+    return {
+      fase: fase,
+      num: num,
+      lbl: lbl,
+      diasComFluxo: diasComFluxo,
+      janelaFertil: janelaFertil,
+      diaAtualIndex: diaCiclo >= 1 && diaCiclo <= duracaoCiclo ? diaCiclo : null,
+      totalDias: duracaoCiclo
+    };
+  }
+
+  function gerarBolinhas(diasComFluxo, diaAtual, janelaFertil, total) {
     const container = document.getElementById('bolinhas');
     container.innerHTML = '';
-    const total = 28;
     const raio = 85;
     for (let i = 1; i <= total; i++) {
       const b = document.createElement('span');
@@ -1054,35 +1035,214 @@ nav.tabbar button.fab .ic { font-size: 22px; font-weight: 700; line-height: 1; }
     }
   }
 
-  gerarBolinhas({1:'dia-forte',2:'dia-forte',3:'dia-moderado',4:'dia-leve'}, 21, [11, 16]);
+  function renderResumo() {
+    ciclosCache = agruparCiclos();
+    const r = calcularResumo();
+    document.getElementById('fase-pill').textContent = r.fase;
+    document.getElementById('num-central').textContent = r.num;
+    document.getElementById('lbl-central').textContent = r.lbl;
+    gerarBolinhas(r.diasComFluxo, r.diaAtualIndex, r.janelaFertil, r.totalDias);
+  }
 
-  // Só pra demonstração: alterna entre "em fluxo" e "fora do fluxo"
-  let emFluxo = false;
-  document.getElementById('btn-simular').addEventListener('click', function () {
-    emFluxo = !emFluxo;
-    if (emFluxo) {
-      document.getElementById('fase-pill').textContent = 'Menstruando';
-      document.getElementById('num-central').textContent = '2';
-      document.getElementById('lbl-central').textContent = 'dias pro fim do ciclo';
-      gerarBolinhas({1:'dia-forte',2:'dia-forte'}, 3, [11, 16]);
-      this.textContent = 'só p/ testar: simular "fora do fluxo"';
-    } else {
-      document.getElementById('fase-pill').textContent = 'Fase lútea';
-      document.getElementById('num-central').textContent = '7';
-      document.getElementById('lbl-central').textContent = 'dias pro início do próximo';
-      gerarBolinhas({1:'dia-forte',2:'dia-forte',3:'dia-moderado',4:'dia-leve'}, 21, [11, 16]);
-      this.textContent = 'só p/ testar: simular "em fluxo"';
+  // ---------- Histórico ----------
+  function renderHistorico() {
+    const lista = document.getElementById('registros-lista');
+    const vazio = document.getElementById('registros-vazio');
+    lista.innerHTML = '';
+
+    const ciclos = agruparCiclos().slice().reverse();
+
+    if (ciclos.length === 0) {
+      vazio.style.display = 'block';
+      return;
     }
+    vazio.style.display = 'none';
+
+    ciclos.forEach(function (c) {
+      const btn = document.createElement('button');
+      btn.className = 'registro-card';
+
+      const titulo = c.dias.length === 1
+        ? formatarDataCurta(c.inicio)
+        : (c.inicio.getMonth() === c.fim.getMonth()
+            ? c.inicio.getDate() + ' – ' + formatarDataCurta(c.fim)
+            : formatarDataCurta(c.inicio) + ' – ' + formatarDataCurta(c.fim));
+
+      btn.innerHTML =
+        '<div class="registro-main"><p class="titulo">' + titulo + '</p></div>' +
+        '<div class="registro-stat">' + c.dias.length + (c.dias.length === 1 ? ' dia' : ' dias') + '</div>';
+
+      btn.addEventListener('click', function () {
+        abrirModalEdicao(c);
+      });
+
+      lista.appendChild(btn);
+    });
+  }
+
+  // ---------- Calendário ----------
+  function renderCalendario() {
+    const ano = calMesAtual.getFullYear();
+    const mes = calMesAtual.getMonth();
+    document.getElementById('calendar-month').textContent = MESES[mes].charAt(0).toUpperCase() + MESES[mes].slice(1) + ' ' + ano;
+
+    const grid = document.getElementById('calendar-grid');
+    grid.innerHTML = '';
+
+    const primeiroDia = new Date(ano, mes, 1).getDay(); // 0 = domingo
+    const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+    const hojeStr = paraISO(new Date());
+
+    for (let i = 0; i < primeiroDia; i++) {
+      const vazio = document.createElement('button');
+      vazio.className = 'calendar-day is-empty';
+      grid.appendChild(vazio);
+    }
+
+    for (let dia = 1; dia <= diasNoMes; dia++) {
+      const dataObj = new Date(ano, mes, dia);
+      const dataStr = paraISO(dataObj);
+      const btn = document.createElement('button');
+      btn.className = 'calendar-day';
+      btn.textContent = String(dia);
+      btn.dataset.date = dataStr;
+
+      const salvo = diasSalvos[dataStr];
+      if (salvo) {
+        btn.classList.add(salvo.fluxo || 'dia-forte');
+        if (salvo.momento && salvo.momento !== 'fluxo') btn.classList.add('momento-limite');
+      }
+      if (dataStr === hojeStr) btn.classList.add('is-hoje');
+      if (dataStr === diaSelecionadoStr) btn.classList.add('dia-selecionado');
+
+      btn.addEventListener('click', function () { selecionarDia(dataStr, dataObj); });
+      grid.appendChild(btn);
+    }
+  }
+
+  function selecionarDia(dataStr, dataObj) {
+    diaSelecionadoStr = dataStr;
+    renderCalendario();
+
+    const hojeStr = paraISO(new Date());
+    document.getElementById('resumo-selecao').textContent =
+      'Registrando: ' + formatarDataCurta(dataObj) + (dataStr === hojeStr ? ' (hoje)' : '');
+
+    const salvo = diasSalvos[dataStr] || { momento: 'fluxo', fluxo: 'dia-moderado' };
+
+    document.querySelectorAll('#fluxo-toggle button').forEach(function (b) {
+      b.classList.toggle('ativo', b.dataset.fluxo === salvo.fluxo);
+    });
+    document.querySelectorAll('#momento-toggle button').forEach(function (b) {
+      b.classList.toggle('ativo', b.dataset.momento === salvo.momento);
+    });
+  }
+
+  function abrirModalRegistro() {
+    editandoDiasCiclo = null;
+    document.getElementById('sheet-title').textContent = 'Registrar dia';
+    document.getElementById('btn-salvar-dia').textContent = 'Salvar dia';
+    document.getElementById('btn-excluir').style.display = 'none';
+    calMesAtual = new Date();
+    renderCalendario();
+    const hojeStr = paraISO(new Date());
+    selecionarDia(hojeStr, new Date());
+    document.getElementById('registrar-overlay').classList.add('is-open');
+  }
+
+  function abrirModalEdicao(ciclo) {
+    editandoDiasCiclo = ciclo.dias.slice();
+    document.getElementById('sheet-title').textContent = 'Editar ciclo';
+    document.getElementById('btn-salvar-dia').textContent = 'Salvar alterações';
+    document.getElementById('btn-excluir').style.display = 'block';
+    calMesAtual = new Date(ciclo.inicio.getFullYear(), ciclo.inicio.getMonth(), 1);
+    renderCalendario();
+    selecionarDia(ciclo.dias[0], ciclo.inicio);
+    document.getElementById('registrar-overlay').classList.add('is-open');
+  }
+
+  function fecharModal() {
+    document.getElementById('registrar-overlay').classList.remove('is-open');
+  }
+
+  // ---------- Salvar / excluir no Firestore ----------
+  function salvarDiaAtual() {
+    if (!diaSelecionadoStr || !cicloDocRef) { fecharModal(); return; }
+    const fluxoAtivo = document.querySelector('#fluxo-toggle button.ativo');
+    const momentoAtivo = document.querySelector('#momento-toggle button.ativo');
+
+    diasSalvos[diaSelecionadoStr] = {
+      momento: momentoAtivo ? momentoAtivo.dataset.momento : 'fluxo',
+      fluxo: fluxoAtivo ? fluxoAtivo.dataset.fluxo : 'dia-moderado'
+    };
+
+    setDoc(cicloDocRef, { dias: diasSalvos }, { merge: false }).catch(function (err) {
+      console.error('Erro ao salvar:', err);
+    });
+
+    fecharModal();
+  }
+
+  function excluirCicloAtual() {
+    if (!editandoDiasCiclo || !cicloDocRef) return;
+    if (!confirm('Excluir todos os dias desse ciclo?')) return;
+    editandoDiasCiclo.forEach(function (dStr) { delete diasSalvos[dStr]; });
+    setDoc(cicloDocRef, { dias: diasSalvos }, { merge: false }).catch(function (err) {
+      console.error('Erro ao excluir:', err);
+    });
+    fecharModal();
+  }
+
+  function renderTudo() {
+    renderResumo();
+    renderHistorico();
+    if (document.getElementById('registrar-overlay').classList.contains('is-open')) {
+      renderCalendario();
+    }
+  }
+
+  // ---------- Navegação entre telas ----------
+  document.querySelectorAll('.tabbar button[data-tela]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.tabbar button[data-tela]').forEach(function (b) { b.classList.remove('ativa'); });
+      document.querySelectorAll('.tela').forEach(function (s) { s.classList.remove('ativa'); });
+      btn.classList.add('ativa');
+      document.getElementById(btn.dataset.tela).classList.add('ativa');
+    });
   });
+
+  document.getElementById('btn-abrir-registrar').addEventListener('click', abrirModalRegistro);
+  document.getElementById('registrar-backdrop').addEventListener('click', fecharModal);
+  document.getElementById('btn-cancelar-registro').addEventListener('click', fecharModal);
+  document.getElementById('btn-salvar-dia').addEventListener('click', salvarDiaAtual);
+  document.getElementById('btn-excluir').addEventListener('click', excluirCicloAtual);
+
+  document.getElementById('calendar-prev').addEventListener('click', function () {
+    calMesAtual.setMonth(calMesAtual.getMonth() - 1);
+    renderCalendario();
+  });
+  document.getElementById('calendar-next').addEventListener('click', function () {
+    calMesAtual.setMonth(calMesAtual.getMonth() + 1);
+    renderCalendario();
+  });
+
+  document.querySelectorAll('#fluxo-toggle button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('#fluxo-toggle button').forEach(function (b) { b.classList.remove('ativo'); });
+      btn.classList.add('ativo');
+    });
+  });
+  document.querySelectorAll('#momento-toggle button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('#momento-toggle button').forEach(function (b) { b.classList.remove('ativo'); });
+      btn.classList.add('ativo');
+    });
+  });
+
   // Menu lateral (perfil + histórico)
   const menuOverlay = document.getElementById('menu-overlay');
   document.getElementById('avatar-btn').addEventListener('click', function () {
     menuOverlay.classList.add('is-open');
-  });
-
-  document.getElementById('btn-voltar-resumo').addEventListener('click', function () {
-    document.querySelectorAll('.tela').forEach(function (s) { s.classList.remove('ativa'); });
-    document.getElementById('tela-resumo').classList.add('ativa');
   });
   document.getElementById('menu-backdrop').addEventListener('click', function () {
     menuOverlay.classList.remove('is-open');
@@ -1093,16 +1253,103 @@ nav.tabbar button.fab .ic { font-size: 22px; font-weight: 700; line-height: 1; }
     document.querySelectorAll('.tela').forEach(function (s) { s.classList.remove('ativa'); });
     document.getElementById('tela-historico').classList.add('ativa');
   });
-
-  // Só pra demonstração: abre/fecha a tela de login (sem lógica de autenticação ainda)
-  document.getElementById('btn-preview-login').addEventListener('click', function () {
-    document.getElementById('login-screen').classList.add('is-open');
-  });
-  document.getElementById('login-screen').addEventListener('click', function () {
-    this.classList.remove('is-open');
+  document.getElementById('btn-voltar-resumo').addEventListener('click', function () {
+    document.querySelectorAll('.tela').forEach(function (s) { s.classList.remove('ativa'); });
+    document.getElementById('tela-resumo').classList.add('ativa');
   });
 
-  // Registro do service worker (PWA)
+  // ---------- Login com Google + Firebase ----------
+  function loadGsiScript() {
+    return new Promise(function (resolve, reject) {
+      if (window.google && window.google.accounts) return resolve();
+      const s = document.createElement('script');
+      s.src = 'https://accounts.google.com/gsi/client';
+      s.async = true;
+      s.defer = true;
+      s.onload = function () { resolve(); };
+      s.onerror = function () { reject(new Error('gsi script failed')); };
+      document.head.appendChild(s);
+    });
+  }
+
+  try {
+    const firebaseApp = initializeApp(firebaseConfig);
+    const auth = getAuth(firebaseApp);
+    const db = getFirestore(firebaseApp);
+    enableIndexedDbPersistence(db).catch(function () {});
+    setPersistence(auth, browserLocalPersistence).catch(function (err) {
+      console.error('Falha ao configurar persistência:', err);
+    });
+
+    const loginScreen = document.getElementById('login-screen');
+    const loginError = document.getElementById('login-error');
+
+    onAuthStateChanged(auth, function (user) {
+      if (!user) {
+        userUid = null;
+        cicloDocRef = null;
+        diasSalvos = {};
+        loginScreen.classList.add('is-open');
+        return;
+      }
+
+      loginScreen.classList.remove('is-open');
+      userUid = user.uid;
+
+      const primeiroNome = (user.displayName || 'você').split(' ')[0];
+      document.getElementById('saudacao').textContent = 'Oi, ' + primeiroNome;
+      document.getElementById('menu-nome').textContent = user.displayName || user.email || 'Conta conectada';
+      if (user.photoURL) {
+        document.getElementById('avatar-img').src = user.photoURL;
+        document.getElementById('menu-avatar').src = user.photoURL;
+      }
+
+      cicloDocRef = doc(db, 'ciclos', user.uid);
+      onSnapshot(cicloDocRef, function (snap) {
+        if (snap.exists()) {
+          diasSalvos = snap.data().dias || {};
+        } else {
+          diasSalvos = {};
+        }
+        renderTudo();
+      });
+    });
+
+    loadGsiScript().then(function () {
+      window.google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: function (response) {
+          loginError.textContent = '';
+          const credential = GoogleAuthProvider.credential(response.credential);
+          signInWithCredential(auth, credential).catch(function (err) {
+            console.error('Falha ao entrar com Google:', err);
+            loginError.textContent = 'Erro: ' + (err.code || err.message || 'desconhecido');
+          });
+        }
+      });
+      window.google.accounts.id.renderButton(
+        document.getElementById('google-signin-button'),
+        { theme: 'outline', size: 'large', text: 'continue_with', shape: 'pill' }
+      );
+    }).catch(function (err) {
+      console.error('Falha ao carregar o script do Google:', err);
+      loginError.textContent = 'Não foi possível carregar o login do Google.';
+    });
+
+    document.getElementById('menu-sair').addEventListener('click', function () {
+      menuOverlay.classList.remove('is-open');
+      signOut(auth);
+    });
+
+  } catch (err) {
+    console.error('Erro ao iniciar o Firebase:', err);
+  }
+
+  // Renderiza o estado inicial (vazio, até o login carregar)
+  renderResumo();
+  renderHistorico();
+
+  // ---------- PWA: service worker ----------
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
       navigator.serviceWorker.register('./sw.js').catch(function (err) {
