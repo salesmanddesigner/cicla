@@ -1,0 +1,24 @@
+{
+  "name": "Cicla",
+  "short_name": "Cicla",
+  "description": "Acompanhamento do ciclo menstrual",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#53141d",
+  "theme_color": "#53141d",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
